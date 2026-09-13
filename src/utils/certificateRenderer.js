@@ -13,9 +13,21 @@ export async function loadImage(src) {
       imageCache.set(src, img);
       resolve(img);
     };
-    img.onerror = (e) => {
-      console.warn('Failed to load image:', src, e);
-      resolve(null);
+    img.onerror = () => {
+      // If relative path fails, try root fallback or vice versa
+      if (src.startsWith('./')) {
+        const fallbackSrc = src.replace(/^\.\//, '/');
+        const retryImg = new Image();
+        retryImg.crossOrigin = 'anonymous';
+        retryImg.onload = () => {
+          imageCache.set(src, retryImg);
+          resolve(retryImg);
+        };
+        retryImg.onerror = () => resolve(null);
+        retryImg.src = fallbackSrc;
+      } else {
+        resolve(null);
+      }
     };
     img.src = src;
   });
@@ -36,7 +48,7 @@ export async function renderCertificateToCanvas(canvas, participant, config) {
   canvas.width = width;
   canvas.height = height;
 
-  const defaultBg = `${import.meta.env.BASE_URL}templates/participation.png`;
+  const defaultBg = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/templates/participation.png`;
   const bgSource = config.backgroundImage || defaultBg;
   const bgImg = await loadImage(bgSource);
 

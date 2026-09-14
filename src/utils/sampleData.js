@@ -1818,5 +1818,18 @@ export const DEFAULT_HACKATHON_PARTICIPANTS = [
     "phone": "+91 8106574159",
     "certId": "HACK26-047-L",
     "teamSize": 2
+  },
+  {
+    "id": "part-141",
+    "sNo": 141,
+    "teamSNo": 48,
+    "fullName": "Gabu Mahalakshmi Ganga Bhavani",
+    "collegeName": "Godavari Global University",
+    "teamName": "Spot Registration",
+    "role": "Participant",
+    "email": "",
+    "phone": "+91 63045 02230",
+    "certId": "MEDHA26-141-P",
+    "teamSize": 1
   }
 ];
